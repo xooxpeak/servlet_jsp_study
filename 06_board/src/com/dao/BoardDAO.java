@@ -14,5 +14,29 @@ public class BoardDAO {
 		List<BoardDTO> list = session.selectList("BoardMapper.list");
 		return list;
 	}
+	
+	// 글 저장
+	public int write(SqlSession session, BoardDTO dto) {
+		int n = session.insert("BoardMapper.write", dto);
+		return n;
+	}
+	
+	// 글 자세히 보기
+	public BoardDTO retrieve(SqlSession session, int num) {
+		BoardDTO dto = session.selectOne("BoardMapper.retrieve", num);
+		return dto;
+	}
+	
+	// 조회수 증가
+	public int readcnt (SqlSession session, int num) {
+		int n = session.update("BoardMapper.readcnt", num);
+		return n;
+	}
+	
+	// 글 수정
+	public int update(SqlSession session, BoardDTO dto) {
+		int n = session.update("BoardMapper.update", dto);
+		return n;
+	}
 
 }

@@ -16,10 +16,29 @@ import com.service.BoardServiceImpl;
 /**
  * Servlet implementation class BoardListServlet
  */
-@WebServlet("/writeui")
-public class BoardWriteUIServlet extends HttpServlet {
+@WebServlet("/update")
+public class BoardUpdateServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String num = request.getParameter("num");
+		String title = request.getParameter("title");
+		String author = request.getParameter("author");
+		String content = request.getParameter("content");
+		
+		BoardDTO dto = new BoardDTO();
+		dto.setNum(Integer.parseInt(num));
+		dto.setTitle(title);
+		dto.setAuthor(author);
+		dto.setContent(content);
+		
+		// dto를 서비스 거쳐서 DAO까지 전달
+		BoardService service = new BoardServiceImpl();
+		int n = service.update(dto);
+		
+		// 요청위임
+		response.sendRedirect("list");
+		
 		
 	}
 

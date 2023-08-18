@@ -1,7 +1,8 @@
-<%@page import="com.dto.BoardDTO"%>
-<%@page import="java.util.List"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="com.dto.BoardDTO"%>
+<%@page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,36 +12,38 @@
 <body>
 <h2>게시판 목록보기</h2>
 <%
-	List<BoardDTO> list 
-	= (List<BoardDTO>)request.getAttribute("boardList");	
+  List<BoardDTO> list = 
+  (List<BoardDTO>)request.getAttribute("boardList");
 %>
 <table border="1">
-	<tr>
-		<th>글번호</th>
-		<th>제목</th>
-		<th>작성자</th>
-		<th>작성일</th>
-		<th>조회수</th>
-	</tr>
-	
+   <tr>
+     <th>글번호</th>
+     <th>제목</th>
+     <th>작성자</th>
+     <th>작성일</th>
+     <th>조회수</th>
+   </tr>
 <%
   for(BoardDTO dto: list){
-	  int num = dto.getNum();
-	  String title = dto.getTitle();
-	  String author = dto.getAuthor();
-	  String writeday = dto.getWriteday();
-%>	
-	<tr>
-		<td><%= num %></td>
-		<td><%= title %></td>
-		<td><%= author %></td>
-		<td><%= writeday %></td>
-		<td><%= dto.getReadcnt() %></td>
-	</tr>
+	 int num = dto.getNum();
+	 String title = dto.getTitle();
+	 String author = dto.getAuthor();
+	 String writeday = dto.getWriteday();
+%>   
+   <tr>
+    <td><%= num %></td>
+    <td><a href="retrieve?num=<%= num %>"><%= title %></a></td>
+    <td><%= author %></td>
+    <td><%= writeday %></td>
+    <td><%= dto.getReadcnt() %></td>   
+   </tr>
 <%
-  }
-%>
+  }//end for
+%>     
 </table>
+ <a href="writeui">글쓰기</a>
+
+
 
 </body>
 </html>
