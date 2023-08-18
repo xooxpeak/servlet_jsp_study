@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -11,13 +12,13 @@ import com.dto.BoardDTO;
 public class BoardServiceImpl implements BoardService {
 
 	@Override
-	public List<BoardDTO> list() {
+	public List<BoardDTO> list(HashMap<String, String> map) {
 		List<BoardDTO> list = null;    //return 하기 위해 밖에서 선언
 		SqlSession session = MySqlSessionFactory.getSession();
 			try {
 				// DAO 연동코드
 				BoardDAO dao = new BoardDAO();    //객체생성
-				list = dao.list(session); 
+				list = dao.list(session, map); 
 				
 			}finally {
 				session.close();

@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -20,9 +21,22 @@ import com.service.BoardServiceImpl;
 public class BoardListServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// 검색 파라미터 얻기
+		String searchName = request.getParameter("searchName");
+		String searchValue = request.getParameter("searchValue");
+		
+		// 2개의 값을 서비스 거쳐서 DAO에 전달
+		// DTO에 저장하지 못하기때문에 HashMap 사용
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("searchName", searchName);
+		map.put("searchValue", searchValue);
+		
+		
+		
 		//BoardService 연동
 		BoardService service = new BoardServiceImpl();
-		List<BoardDTO> list = service.list();     //다형성
+		List<BoardDTO> list = service.list(map);     //다형성
 		
 		// 이전에는 서블릿에서 응답처리를 했음. => list.jsp한테 위임
 		// list.jsp 에서 List<BoardDTO>를 보여주기 위해서는
