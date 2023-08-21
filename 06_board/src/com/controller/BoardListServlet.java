@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dto.BoardDTO;
+import com.dto.PageDTO;
 import com.service.BoardService;
 import com.service.BoardServiceImpl;
 
@@ -21,6 +22,14 @@ import com.service.BoardServiceImpl;
 public class BoardListServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// list.jsp에서 1 2 3 4 페이지 번호를 클릭할 때 전달된 현재 페이지 번호 얻기
+		// <a href="list?curPage=2>2</a>
+		String curPage = request.getParameter("curPage");
+		if(curPage == null) {   // 맨 처음 실행한 경우 => 1로 초기화
+			curPage = "1";
+		}
+		
 		
 		// 검색 파라미터 얻기
 		String searchName = request.getParameter("searchName");
@@ -36,7 +45,7 @@ public class BoardListServlet extends HttpServlet {
 		
 		//BoardService 연동
 		BoardService service = new BoardServiceImpl();
-		List<BoardDTO> list = service.list(map);     //다형성
+		PageDTO pageDTO = service.list(map, Integer.parseInt(curPage));     
 		
 		// 이전에는 서블릿에서 응답처리를 했음. => list.jsp한테 위임
 		// list.jsp 에서 List<BoardDTO>를 보여주기 위해서는
@@ -46,7 +55,7 @@ public class BoardListServlet extends HttpServlet {
 		 * session scope
 		 * application scope
 		 */
-		request.setAttribute("boardList", list);
+		request.setAttribute("pageDTO", pageDTO);
 		
 		// 요청위임. 목록보기는 request scope에 저장했기 때문에 포워드로 사용.
 		/*
